@@ -13,6 +13,8 @@ public interface Engine {
      * Provides access to the selection control object
      * @return the selection object
      */
+
+    //test
     Selection getSelection();
 
     /**
