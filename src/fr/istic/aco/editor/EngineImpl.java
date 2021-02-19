@@ -1,6 +1,10 @@
 package fr.istic.aco.editor;
 
 public class EngineImpl implements Engine {
+
+    private StringBuilder buffer = new StringBuilder();
+
+
     /**
      * Provides access to the selection control object
      *
