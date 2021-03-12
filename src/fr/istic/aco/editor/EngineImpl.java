@@ -2,10 +2,9 @@ package fr.istic.aco.editor;
 
 public class EngineImpl implements Engine {
 
-    private StringBuilder buffer=new StringBuilder();
-    private String clipboard= "";
-    private Selection selection=new SelectionImpl(buffer);
-
+    private StringBuilder buffer = new StringBuilder();
+    private String clipboard = "";
+    private Selection selection = new SelectionImpl(buffer);
 
     /**
      * Provides access to the selection control object
@@ -14,6 +13,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public Selection getSelection() {
+        // TODO
         return selection;
     }
 
@@ -34,15 +34,14 @@ public class EngineImpl implements Engine {
      */
     @Override
     public String getClipboardContents() {
+        // TODO
         return clipboard;
     }
 
     /**
      * Removes the text within the interval
      * specified by the selection control object,
-     * from the buffer. Copies the text within the interval
-     * specified by the selection control object
-     * into the clipboard.
+     * from the buffer.
      */
     @Override
     public void cutSelectedText() {
@@ -57,7 +56,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void copySelectedText() {
-        clipboard=getBufferContents().substring(getSelection().getBeginIndex(),getSelection().getEndIndex());
+        clipboard = getBufferContents().substring(selection.getBeginIndex(),selection.getEndIndex());
     }
 
     /**
@@ -66,7 +65,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void pasteClipboard() {
-        buffer.replace(getSelection().getBeginIndex(),getSelection().getEndIndex(),getClipboardContents());
+        buffer.replace(selection.getBeginIndex(),selection.getEndIndex(),clipboard);
     }
 
     /**
@@ -76,7 +75,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void insert(String s) {
-        buffer.insert(getSelection().getBeginIndex(),s);
+        buffer.insert(selection.getBeginIndex(),s);
     }
 
     /**
@@ -84,7 +83,6 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void delete() {
-        buffer.delete(getSelection().getBeginIndex(),getSelection().getEndIndex());
-
+        buffer.delete(selection.getBeginIndex(),selection.getEndIndex());
     }
 }
