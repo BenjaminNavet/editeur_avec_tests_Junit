@@ -18,37 +18,54 @@ class EngineTest {
         fail("Unimplemented test");
     }
     @Test
-    @DisplayName("Buffer must be empty after initialisation")
-    void getSelection() {
+    @DisplayName("Selection must be empty after initialisation")
+    void getSelectionInit() {
         Selection selection = engine.getSelection();
         assertEquals(selection.getBufferBeginIndex(),selection.getBeginIndex());
         assertEquals("",engine.getBufferContents());
     }
 
-    // NEW test
-
     @Test
-    void getBufferContents() {
-        todo();
+    @DisplayName("Buffer must be empty after initialisation")
+    void getBufferContentsInit() {
+        assertEquals("",engine.getBufferContents());
     }
 
     @Test
-    void getClipboardContents() {
-        todo();
+    @DisplayName("Clipboard must be empty after initialisation")
+    void getClipboardContentsInit() {
+        assertEquals("",engine.getClipboardContents());
     }
 
     @Test
-    void cutSelectedText() {
-        todo();
+    @DisplayName("Clipboard must be empty after copy text after initialisation")
+    void copySelectedTextInit() {
+        engine.copySelectedText();
+        assertEquals("",engine.getClipboardContents());
+    }
+
+
+    @Test
+    void cutSelectedTextInit() {
+        engine.cutSelectedText();
+        assertEquals("",engine.getClipboardContents());
+        assertEquals("",engine.getBufferContents());
+    }
+
+
+
+    @Test
+    @DisplayName("Buffer must be empty after paste text after initialisation")
+    void pasteClipboardInit() {
+        engine.pasteClipboard();
+        assertEquals("",engine.getBufferContents());
     }
 
     @Test
-    void copySelectedText() {
-        todo();
-    }
-
-    @Test
-    void pasteClipboard() {
-        todo();
+    @DisplayName("Buffer doit contenir la string 'ABCD'")
+    void getBufferContentsWithString() {
+        engine.insert("ABCD");
+        String buffContents=engine.getBufferContents();
+        assertEquals("ABCD",buffContents);
     }
 }
