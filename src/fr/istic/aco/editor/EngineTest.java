@@ -25,6 +25,8 @@ class EngineTest {
         assertEquals("",engine.getBufferContents());
     }
 
+    // NEW test
+
     @Test
     void getBufferContents() {
         todo();
