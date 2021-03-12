@@ -31,7 +31,8 @@ public class SelectionImpl implements Selection{
 
     @Override
     public int getBufferEndIndex() {
-        return buffer.lastIndexOf(buffer.toString());
+        //return buffer.lastIndexOf(buffer.toString());
+        return buffer.length()-1;
     }
 
     @Override

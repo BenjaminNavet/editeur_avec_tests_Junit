@@ -17,6 +17,7 @@ class EngineTest {
     private void todo() {
         fail("Unimplemented test");
     }
+
     @Test
     @DisplayName("Selection must be empty after initialisation")
     void getSelectionInit() {
@@ -46,6 +47,7 @@ class EngineTest {
 
 
     @Test
+    @DisplayName("Clipboard and Buffer must be empty after cut text after initialisation")
     void cutSelectedTextInit() {
         engine.cutSelectedText();
         assertEquals("",engine.getClipboardContents());
@@ -62,10 +64,56 @@ class EngineTest {
     }
 
     @Test
+    @DisplayName("Selection must be ABC")
+    void getSelectionABC() {
+        engine.insert("ABCD");
+        engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
+        engine.getSelection().setEndIndex(2);
+        Selection selection = engine.getSelection();
+        engine.copySelectedText();
+        assertEquals("ABC",engine.getClipboardContents());
+    }
+
+    @Test
+    @DisplayName("Selection must be BCD")
+    void getSelectionBCD() {
+        engine.insert("ABCD");
+        engine.getSelection().setBeginIndex(1);
+        engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+        Selection selection = engine.getSelection();
+        engine.copySelectedText();
+        assertEquals("BCD",engine.getClipboardContents());
+    }
+
+    @Test
+    @DisplayName("Selection must be ABCD")
+    void getSelectionABCD() {
+        engine.insert("ABCD");
+        engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
+        engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+        Selection selection = engine.getSelection();
+        engine.copySelectedText();
+        assertEquals("ABCD",engine.getClipboardContents());
+    }
+
+    @Test
+    @DisplayName("Selection must be BC")
+    void getSelectionBC() {
+        engine.insert("ABCD");
+        engine.getSelection().setBeginIndex(1);
+        engine.getSelection().setEndIndex(2);
+        Selection selection = engine.getSelection();
+        engine.copySelectedText();
+        assertEquals("BC",engine.getClipboardContents());
+    }
+
+
+    @Test
     @DisplayName("Buffer doit contenir la string 'ABCD'")
     void getBufferContentsWithString() {
         engine.insert("ABCD");
         String buffContents=engine.getBufferContents();
         assertEquals("ABCD",buffContents);
+        assertEquals(3,engine.getSelection().getBufferEndIndex());
     }
 }

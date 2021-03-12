@@ -56,7 +56,12 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void copySelectedText() {
-        clipboard = getBufferContents().substring(getSelection().getBeginIndex(),getSelection().getEndIndex());
+        if(getSelection().getEndIndex()==0) {
+            clipboard = getBufferContents().substring(getSelection().getBeginIndex(), getSelection().getEndIndex());
+        }else{
+             clipboard = getBufferContents().substring(getSelection().getBeginIndex(), getSelection().getEndIndex() + 1);
+        }
+
     }
 
     /**
