@@ -25,6 +25,8 @@ class EngineTest {
         assertEquals("",engine.getBufferContents());
     }
 
+    // Test selection
+
     @Test
     void getBufferContents() {
         todo();
