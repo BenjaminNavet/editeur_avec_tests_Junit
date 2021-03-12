@@ -3,12 +3,14 @@ package fr.istic.aco.editor;
 public class SelectionImpl implements Selection{
 
     private StringBuilder buffer;
-    private int beginIndex = 0;
-    private int endIndex = 0;
+    private int beginIndex;
+    private int endIndex;
 
 
     public SelectionImpl(StringBuilder buffer) {
         this.buffer = buffer;
+        this.beginIndex=0;
+        this.endIndex=0;
     }
 
 

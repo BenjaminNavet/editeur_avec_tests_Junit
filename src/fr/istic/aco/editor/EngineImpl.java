@@ -56,7 +56,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void copySelectedText() {
-        clipboard = getBufferContents().substring(selection.getBeginIndex(),selection.getEndIndex());
+        clipboard = getBufferContents().substring(getSelection().getBeginIndex(),getSelection().getEndIndex());
     }
 
     /**
@@ -65,7 +65,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void pasteClipboard() {
-        buffer.replace(selection.getBeginIndex(),selection.getEndIndex(),clipboard);
+        buffer.replace(getSelection().getBeginIndex(),getSelection().getEndIndex(),getClipboardContents());
     }
 
     /**
@@ -75,7 +75,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void insert(String s) {
-        buffer.insert(selection.getBeginIndex(),s);
+        buffer.insert(getSelection().getBeginIndex(),s);
     }
 
     /**
@@ -83,6 +83,6 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void delete() {
-        buffer.delete(selection.getBeginIndex(),selection.getEndIndex());
+        buffer.delete(getSelection().getBeginIndex(),getSelection().getEndIndex());
     }
 }
