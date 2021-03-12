@@ -11,6 +11,8 @@ public class SelectionImpl implements Selection{
         this.buffer = buffer;
     }
 
+// test
+
 
     @Override
     public int getBeginIndex() {
