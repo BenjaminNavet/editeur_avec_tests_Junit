@@ -32,16 +32,30 @@ public class SelectionImpl implements Selection{
     @Override
     public int getBufferEndIndex() {
         //return buffer.lastIndexOf(buffer.toString());
-        return buffer.length()-1;
+        return buffer.length();
     }
 
     @Override
     public void setBeginIndex(int beginIndex) {
-        this.beginIndex = beginIndex;
+        if(beginIndex<0) {
+            throw new IndexOutOfBoundsException(beginIndex);
+        }else if(beginIndex>getEndIndex()){
+            throw new IndexOutOfBoundsException(beginIndex);
+        }else{
+            this.beginIndex = beginIndex;
+        }
     }
 
     @Override
     public void setEndIndex(int endIndex) {
-        this.endIndex = endIndex;
+        if(endIndex<0) {
+            throw new IndexOutOfBoundsException(endIndex);
+        }else if(endIndex<getBeginIndex()){
+            throw new IndexOutOfBoundsException(endIndex);
+        }else if(endIndex>getBufferEndIndex()){
+            throw new IndexOutOfBoundsException(endIndex);
+        }else{
+            this.endIndex = endIndex;
+        }
     }
 }

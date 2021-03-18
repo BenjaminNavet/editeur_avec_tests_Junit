@@ -68,7 +68,7 @@ class EngineTest {
     void getSelectionABC() {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
-        engine.getSelection().setEndIndex(2);
+        engine.getSelection().setEndIndex(3);
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABC",engine.getClipboardContents());
@@ -78,8 +78,8 @@ class EngineTest {
     @DisplayName("Selection must be BCD")
     void getSelectionBCD() {
         engine.insert("ABCD");
-        engine.getSelection().setBeginIndex(1);
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+        engine.getSelection().setBeginIndex(1);
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BCD",engine.getClipboardContents());
@@ -100,20 +100,81 @@ class EngineTest {
     @DisplayName("Selection must be BC")
     void getSelectionBC() {
         engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(1);
-        engine.getSelection().setEndIndex(2);
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BC",engine.getClipboardContents());
     }
 
-
     @Test
-    @DisplayName("Buffer doit contenir la string 'ABCD'")
+    @DisplayName("Buffer must contain string 'ABCD'")
     void getBufferContentsWithString() {
         engine.insert("ABCD");
         String buffContents=engine.getBufferContents();
         assertEquals("ABCD",buffContents);
-        assertEquals(3,engine.getSelection().getBufferEndIndex());
     }
+
+
+    /* SelectionTest */
+    @Test
+    @DisplayName("BufferBeginIndex must be 0 after initialisation")
+    void getBufferBeginIndexInit() {
+        assertEquals(0,engine.getSelection().getBufferBeginIndex());
+    }
+
+    @Test
+    @DisplayName("BufferBeginIndex must be 0")
+    void getBufferBeginIndex() {
+        engine.insert("ABCD");
+        assertEquals(0,engine.getSelection().getBufferBeginIndex());
+    }
+
+    @Test
+    @DisplayName("BufferEndIndex must be 0 after initialisation")
+    void getBufferEndIndexInit() {
+        assertEquals(0,engine.getSelection().getBufferEndIndex());
+    }
+
+    @Test
+    @DisplayName("BufferEndIndex must be 4")
+    void getBufferEndIndex() {
+        engine.insert("ABCD");
+        assertEquals(4,engine.getSelection().getBufferEndIndex());
+    }
+
+    @Test
+    @DisplayName("IndexOutOfBoundsException for setBeginIndex(-1)")
+    void setBeginIndexNeg() {
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(-1));
+    }
+
+    @Test
+    @DisplayName("IndexOutOfBoundsException for setBeginIndex(1)")
+    void setBeginIndexSup() {
+        engine.insert("ABCD");
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(1));
+    }
+
+    @Test
+    @DisplayName("IndexOutOfBoundsException for setEndIndex(-1)")
+    void setEndIndexNeg() {
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(-1));
+    }
+
+    @Test
+    @DisplayName("IndexOutOfBoundsException for setEndIndex()<getBeginIndex()")
+    void setEndIndexSup() {
+        engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
+    }
+
+    @Test
+    @DisplayName("IndexOutOfBoundsException for setEndIndex()>getBufferEndIndex()")
+    void setEndIndexOut() {
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
+    }
+
 }
