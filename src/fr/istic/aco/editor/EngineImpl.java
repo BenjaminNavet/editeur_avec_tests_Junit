@@ -56,7 +56,14 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void copySelectedText() {
-        clipboard = getBufferContents().substring(selection.getBeginIndex(),selection.getEndIndex());
+        /*
+        if(getSelection().getEndIndex()==0) {
+            clipboard = getBufferContents().substring(getSelection().getBeginIndex(), getSelection().getEndIndex());
+        }else{
+             clipboard = getBufferContents().substring(getSelection().getBeginIndex(), getSelection().getEndIndex() + 1);
+        }
+        */
+        clipboard = getBufferContents().substring(getSelection().getBeginIndex(), getSelection().getEndIndex());
     }
 
     /**
@@ -65,7 +72,9 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void pasteClipboard() {
-        buffer.replace(selection.getBeginIndex(),selection.getEndIndex(),clipboard);
+        buffer.replace(getSelection().getBeginIndex(),getSelection().getEndIndex(),getClipboardContents());
+        // est-ce une bonne idée de manipuler un attribut sans passer par une methode ?
+        clipboard = "";
     }
 
     /**
@@ -75,7 +84,7 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void insert(String s) {
-        buffer.insert(selection.getBeginIndex(),s);
+        buffer.insert(getSelection().getBeginIndex(),s);
     }
 
     /**
@@ -83,6 +92,6 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void delete() {
-        buffer.delete(selection.getBeginIndex(),selection.getEndIndex());
+        buffer.delete(getSelection().getBeginIndex(),getSelection().getEndIndex());
     }
 }

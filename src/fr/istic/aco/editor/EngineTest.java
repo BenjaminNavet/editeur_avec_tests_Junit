@@ -69,6 +69,8 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(3);
+
+        // pourquoi cette variable qui n'est pas utilisée?
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABC",engine.getClipboardContents());
@@ -80,6 +82,9 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
         engine.getSelection().setBeginIndex(1);
+
+
+        // pourquoi cette variable qui n'est pas utilisée?
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BCD",engine.getClipboardContents());
@@ -91,6 +96,8 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+
+        // pourquoi cette variable qui n'est pas utilisée?
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABCD",engine.getClipboardContents());
@@ -102,6 +109,8 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(1);
+
+        // pourquoi cette variable qui n'est pas utilisée?
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BC",engine.getClipboardContents());
@@ -191,15 +200,88 @@ class EngineTest {
 
     @Test
     @DisplayName("Exception for setBeginIndex('4')")
-    void setBeginIndexWrong() {
-        assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4'));
+    void setBeginIndexWrongType() { assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4')); }
+
+    @Test
+    @DisplayName("Exception for setEndIndex('4')")
+    void setEndIndexWrongType() {
+        assertThrows(Exception.class,()->engine.getSelection().setEndIndex('4'));
+    }
+
+
+
+
+    @Test
+    @DisplayName("inserted content must be found in the buffer")
+    void insertion() {
+        assertEquals("",engine.getBufferContents());
+        engine.insert("abcd");
+        assertEquals("abcd", engine.getBufferContents());
+    }
+
+    /* pourquoi ça marche pas???
+    @Test
+    @DisplayName("Exception for inserting a non-String parameter")
+    void InsertWrongType() {
+        assertThrows(Exception.class,()->engine.insert(45555));
+    }
+    */
+
+    @Test
+    @DisplayName("Delete all content in buffer")
+    void delete() {
+        assertEquals("",engine.getBufferContents());
+        engine.insert("abcd");
+        assertEquals("abcd", engine.getBufferContents());
+        engine.getSelection().setEndIndex(4);
+        engine.delete();
+        assertEquals("",engine.getBufferContents());
+        assertEquals(0, engine.getSelection().getBufferEndIndex());
+        assertEquals(0, engine.getSelection().getBufferBeginIndex());
     }
 
     @Test
-    @DisplayName("Exception for setBeginIndex('4')")
-    void setBeginIndexWrong() {
-        assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4'));
+    @DisplayName("Delete a selection of content in buffer")
+    void deleteSelectionOfContent() {
+        assertEquals("",engine.getBufferContents());
+        engine.insert("abcd");
+        assertEquals("abcd", engine.getBufferContents());
+
+        // ici on est obligé de modifier le beginIndex AVANT le endIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
+        engine.getSelection().setEndIndex(4);
+        engine.getSelection().setBeginIndex(2);
+        engine.delete();
+        assertEquals("ab",engine.getBufferContents());
+        assertEquals(2, engine.getSelection().getBufferEndIndex());
+        assertEquals(0, engine.getSelection().getBufferBeginIndex());
     }
+
+    @Test
+    @DisplayName("Buffer must have new pasted content")
+    void pasteContentInBuffer() {
+        assertEquals("",engine.getBufferContents());
+        engine.insert("abcd");
+        assertEquals("abcd", engine.getBufferContents());
+        // ici on est obligé de modifier le beginIndex AVANT le endIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
+        engine.getSelection().setEndIndex(4);
+        engine.getSelection().setBeginIndex(2);
+        engine.copySelectedText();
+        // on positionne la selection en fin de buffer
+        engine.getSelection().setBeginIndex(4);
+        engine.pasteClipboard();
+        assertEquals("abcdcd",engine.getBufferContents());
+        assertEquals(6, engine.getSelection().getBufferEndIndex());
+        assertEquals(0, engine.getSelection().getBufferBeginIndex());
+
+        // le contenu du clipboard est supprimé après avoir été collé. question : voir methode pasteClipboard()
+        assertEquals("", engine.getClipboardContents());
+    }
+
+
+
+
+
+
 
 
 }
