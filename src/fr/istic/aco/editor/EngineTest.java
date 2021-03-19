@@ -189,5 +189,10 @@ class EngineTest {
         assertEquals(3,engine.getSelection().getEndIndex());
     }
 
+    @Test
+    @DisplayName("Exception for setBeginIndex('4')")
+    void setBeginIndexWrong() {
+        assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4'));
+    }
 
 }
