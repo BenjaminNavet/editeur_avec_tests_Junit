@@ -150,21 +150,20 @@ class EngineTest {
     }
 
     @Test
-    @DisplayName("IndexOutOfBoundsException for setBeginIndex(1)")
-    void setBeginIndexSup() {
-        engine.insert("ABCD");
-        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(1));
-    }
-
-    @Test
     @DisplayName("IndexOutOfBoundsException for setEndIndex(-1)")
     void setEndIndexNeg() {
         assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(-1));
     }
 
     @Test
+    @DisplayName("IndexOutOfBoundsException for setEndIndex()>getBufferEndIndex() with buffer empty")
+    void setEndIndexOut() {
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
+    }
+
+    @Test
     @DisplayName("IndexOutOfBoundsException for setEndIndex()<getBeginIndex()")
-    void setEndIndexSup() {
+    void setEndIndexInf() {
         engine.insert("ABCD");
         engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
@@ -172,9 +171,23 @@ class EngineTest {
     }
 
     @Test
-    @DisplayName("IndexOutOfBoundsException for setEndIndex()>getBufferEndIndex()")
-    void setEndIndexOut() {
-        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
+    @DisplayName("IndexOutOfBoundsException for setBeginIndex()>getEndIndex()")
+    void setBeginIndexSup() {
+        engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(4));
     }
+
+    @Test
+    @DisplayName("Verify if setBeginIndex(beginIndex) and setEndIndex(endIndex) works correctly")
+    void setIndexVerif() {
+        engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        assertEquals(2,engine.getSelection().getBeginIndex());
+        assertEquals(3,engine.getSelection().getEndIndex());
+    }
+
 
 }
