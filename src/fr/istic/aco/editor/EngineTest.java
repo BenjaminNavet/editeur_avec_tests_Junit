@@ -14,10 +14,6 @@ class EngineTest {
         engine = new EngineImpl();
     }
 
-    private void todo() {
-        fail("Unimplemented test");
-    }
-
     @Test
     @DisplayName("Selection must be empty after initialisation")
     void getSelectionInit() {
@@ -69,7 +65,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(3);
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABC",engine.getClipboardContents());
     }
@@ -80,7 +75,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
         engine.getSelection().setBeginIndex(1);
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BCD",engine.getClipboardContents());
     }
@@ -91,7 +85,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABCD",engine.getClipboardContents());
     }
@@ -102,7 +95,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(1);
         engine.getSelection().setEndIndex(3);
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BC",engine.getClipboardContents());
     }
