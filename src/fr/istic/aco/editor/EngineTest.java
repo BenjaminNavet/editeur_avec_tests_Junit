@@ -14,9 +14,7 @@ class EngineTest {
         engine = new EngineImpl();
     }
 
-    private void todo() {
-        fail("Unimplemented test");
-    }
+
 
     @Test
     @DisplayName("Selection must be empty after initialisation")
@@ -69,9 +67,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(3);
-
-        // pourquoi cette variable qui n'est pas utilisée?
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABC",engine.getClipboardContents());
     }
@@ -83,9 +78,6 @@ class EngineTest {
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
         engine.getSelection().setBeginIndex(1);
 
-
-        // pourquoi cette variable qui n'est pas utilisée?
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BCD",engine.getClipboardContents());
     }
@@ -96,9 +88,6 @@ class EngineTest {
         engine.insert("ABCD");
         engine.getSelection().setBeginIndex(engine.getSelection().getBufferBeginIndex());
         engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
-
-        // pourquoi cette variable qui n'est pas utilisée?
-        Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("ABCD",engine.getClipboardContents());
     }
@@ -107,11 +96,8 @@ class EngineTest {
     @DisplayName("Selection must be BC")
     void getSelectionBC() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(1);
-
-        // pourquoi cette variable qui n'est pas utilisée?
-        Selection selection = engine.getSelection();
+        engine.getSelection().setEndIndex(3);
         engine.copySelectedText();
         assertEquals("BC",engine.getClipboardContents());
     }
@@ -174,8 +160,8 @@ class EngineTest {
     @DisplayName("IndexOutOfBoundsException for setEndIndex()<getBeginIndex()")
     void setEndIndexInf() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
     }
 
@@ -183,8 +169,8 @@ class EngineTest {
     @DisplayName("IndexOutOfBoundsException for setBeginIndex()>getEndIndex()")
     void setBeginIndexSup() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(4));
     }
 
@@ -192,8 +178,8 @@ class EngineTest {
     @DisplayName("Verify if setBeginIndex(beginIndex) and setEndIndex(endIndex) works correctly")
     void setIndexVerif() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertEquals(2,engine.getSelection().getBeginIndex());
         assertEquals(3,engine.getSelection().getEndIndex());
     }
@@ -226,6 +212,7 @@ class EngineTest {
         assertEquals("",engine.getBufferContents());
         engine.insert("abcd");
         assertEquals("abcd", engine.getBufferContents());
+        engine.getSelection().setBeginIndex(0);
         engine.getSelection().setEndIndex(4);
         engine.delete();
         assertEquals("",engine.getBufferContents());
@@ -240,7 +227,7 @@ class EngineTest {
         engine.insert("abcd");
         assertEquals("abcd", engine.getBufferContents());
 
-        // ici on est obligé de modifier le beginIndex AVANT le endIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
+        // ici on est obligé de modifier le endIndex AVANT le beginIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
         engine.getSelection().setEndIndex(4);
         engine.getSelection().setBeginIndex(2);
         engine.delete();
@@ -255,7 +242,7 @@ class EngineTest {
         assertEquals("",engine.getBufferContents());
         engine.insert("abcd");
         assertEquals("abcd", engine.getBufferContents());
-        // ici on est obligé de modifier le beginIndex AVANT le endIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
+        // ici on est obligé de modifier le endIndex AVANT le beginIndex sinon erreur car endIndex<BeginIndex (EndIndex initialement à 0)
         engine.getSelection().setEndIndex(4);
         engine.getSelection().setBeginIndex(2);
         engine.copySelectedText();
