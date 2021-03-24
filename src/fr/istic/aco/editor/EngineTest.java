@@ -321,7 +321,7 @@ class EngineTest {
         assertEquals("ABCD",engine.getBufferContents());
 
         engine.insert(" EFGH");
-        assertEquals("ABCDEFGH",engine.getBufferContents());
+        assertEquals("ABCD EFGH",engine.getBufferContents());
 
         engine.insert(" I J K L");
         assertEquals("ABCD EFGH I J K L",engine.getBufferContents());
