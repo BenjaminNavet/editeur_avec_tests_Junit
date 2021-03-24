@@ -323,13 +323,10 @@ class EngineTest {
         engine.insert(" EFGH");
         assertEquals("ABCD EFGH",engine.getBufferContents());
 
-        engine.insert(" I J K L");
-        assertEquals("ABCD EFGH I J K L",engine.getBufferContents());
-
         engine.getSelection().setBeginIndex(4);
         engine.getSelection().setEndIndex(4);
         engine.insert(" coucou");
-        assertEquals("ABCD coucou EFGH I J K L",engine.getBufferContents());
+        assertEquals("ABCD coucou EFGH",engine.getBufferContents());
     }
 
 }
