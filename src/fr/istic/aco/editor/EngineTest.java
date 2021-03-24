@@ -100,8 +100,8 @@ class EngineTest {
     @DisplayName("Selection must be BC")
     void getSelectionBC() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(1);
+        engine.getSelection().setEndIndex(3);
         Selection selection = engine.getSelection();
         engine.copySelectedText();
         assertEquals("BC",engine.getClipboardContents());
@@ -165,8 +165,8 @@ class EngineTest {
     @DisplayName("IndexOutOfBoundsException for setEndIndex()<getBeginIndex()")
     void setEndIndexInf() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex(1));
     }
 
@@ -174,8 +174,8 @@ class EngineTest {
     @DisplayName("IndexOutOfBoundsException for setBeginIndex()>getEndIndex()")
     void setBeginIndexSup() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex(4));
     }
 
@@ -183,8 +183,8 @@ class EngineTest {
     @DisplayName("Verify if setBeginIndex(beginIndex) and setEndIndex(endIndex) works correctly")
     void setIndexVerif() {
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         assertEquals(2,engine.getSelection().getBeginIndex());
         assertEquals(3,engine.getSelection().getEndIndex());
     }
@@ -206,8 +206,8 @@ class EngineTest {
         assertEquals("",engine.getClipboardContents());
         assertEquals("",engine.getBufferContents());
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         engine.copySelectedText();
         assertEquals("C",engine.getClipboardContents());
         engine.getSelection().setEndIndex(4);
@@ -222,8 +222,8 @@ class EngineTest {
         assertEquals("",engine.getClipboardContents());
         assertEquals("",engine.getBufferContents());
         engine.insert("ABCD");
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         engine.cutSelectedText();
         assertEquals("C",engine.getClipboardContents());
         assertEquals("ABD",engine.getBufferContents());
@@ -242,8 +242,8 @@ class EngineTest {
         engine.insert("ABCD");
 
         // Cut letter "C"
-        engine.getSelection().setEndIndex(3);
         engine.getSelection().setBeginIndex(2);
+        engine.getSelection().setEndIndex(3);
         engine.cutSelectedText();
         assertEquals("C",engine.getClipboardContents());
         assertEquals("ABD",engine.getBufferContents());
