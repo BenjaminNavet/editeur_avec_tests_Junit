@@ -3,15 +3,15 @@ package fr.istic.aco.editor;
 public class SelectionImpl implements Selection{
 
     private StringBuilder buffer;
-    private int beginIndex = 0;
-    private int endIndex = 0;
+    private int beginIndex;
+    private int endIndex;
 
 
     public SelectionImpl(StringBuilder buffer) {
         this.buffer = buffer;
+        this.beginIndex=0;
+        this.endIndex=0;
     }
-
-// test
 
 
     @Override
@@ -31,16 +31,29 @@ public class SelectionImpl implements Selection{
 
     @Override
     public int getBufferEndIndex() {
-        return buffer.lastIndexOf(buffer.toString());
+        //return buffer.lastIndexOf(buffer.toString());
+        return buffer.length();
     }
 
     @Override
     public void setBeginIndex(int beginIndex) {
-        this.beginIndex = beginIndex;
+        if(beginIndex<getBufferBeginIndex()) {
+            throw new IndexOutOfBoundsException(beginIndex);
+        }else if(beginIndex>getEndIndex()){
+            throw new IndexOutOfBoundsException(beginIndex);
+        }else{
+            this.beginIndex = beginIndex;
+        }
     }
 
     @Override
     public void setEndIndex(int endIndex) {
-        this.endIndex = endIndex;
+        if(endIndex<getBeginIndex()){
+            throw new IndexOutOfBoundsException(endIndex);
+        }else if(endIndex>getBufferEndIndex()){
+            throw new IndexOutOfBoundsException(endIndex);
+        }else{
+            this.endIndex = endIndex;
+        }
     }
 }
