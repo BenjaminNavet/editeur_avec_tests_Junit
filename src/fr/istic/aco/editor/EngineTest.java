@@ -195,4 +195,138 @@ class EngineTest {
         assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4'));
     }
 
+
+
+
+
+
+    @Test
+    @DisplayName("Verify if getClipboardContents and copySelectedText work correctly")
+    void verifyGetClipboardContents(){
+        assertEquals("",engine.getClipboardContents());
+        assertEquals("",engine.getBufferContents());
+        engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        engine.copySelectedText();
+        assertEquals("C",engine.getClipboardContents());
+        engine.getSelection().setEndIndex(4);
+        engine.getSelection().setBeginIndex(2);
+        engine.copySelectedText();
+        assertEquals("CD",engine.getClipboardContents());
+    }
+
+    @Test
+    @DisplayName("Verify if cutSelectedText works correctly")
+    void verifyCutSelectedText(){
+        assertEquals("",engine.getClipboardContents());
+        assertEquals("",engine.getBufferContents());
+        engine.insert("ABCD");
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        engine.cutSelectedText();
+        assertEquals("C",engine.getClipboardContents());
+        assertEquals("ABD",engine.getBufferContents());
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(1);
+        engine.cutSelectedText();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("A",engine.getBufferContents());
+    }
+
+    @Test
+    @DisplayName("Verify if pasteClipboard works correctly")
+    void verifyPasteClipboard(){
+        assertEquals("",engine.getClipboardContents());
+        assertEquals("",engine.getBufferContents());
+        engine.insert("ABCD");
+
+        // Cut letter "C"
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(2);
+        engine.cutSelectedText();
+        assertEquals("C",engine.getClipboardContents());
+        assertEquals("ABD",engine.getBufferContents());
+
+        // Modify selection to paste the clipboard at the end of buffer
+        engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+        engine.getSelection().setBeginIndex(engine.getSelection().getBufferEndIndex());
+        engine.pasteClipboard();
+        assertEquals("C",engine.getClipboardContents());
+        assertEquals("ABDC",engine.getBufferContents());
+
+        // Cut letter "C"
+        engine.getSelection().setEndIndex(engine.getSelection().getBufferEndIndex());
+        engine.getSelection().setBeginIndex(engine.getSelection().getBufferEndIndex()-1);
+        engine.cutSelectedText();
+        assertEquals("C",engine.getClipboardContents());
+        assertEquals("ABD",engine.getBufferContents());
+
+        // Modify selection to paste the clipboard between letters "A" and "B"
+        engine.getSelection().setBeginIndex(1);
+        engine.getSelection().setEndIndex(1);
+        engine.pasteClipboard();
+        assertEquals("C",engine.getClipboardContents());
+        assertEquals("ACBD",engine.getBufferContents());
+
+        // Cut SubString "BD"
+        engine.getSelection().setEndIndex(4);
+        engine.getSelection().setBeginIndex(2);
+        engine.cutSelectedText();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("AC",engine.getBufferContents());
+
+        // Modify selection to paste the clipboard between letters "A" and "C"
+        engine.getSelection().setBeginIndex(1);
+        engine.getSelection().setEndIndex(1);
+        engine.pasteClipboard();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("ABDC",engine.getBufferContents());
+
+        // Cut SubString "BD"
+        engine.getSelection().setEndIndex(3);
+        engine.getSelection().setBeginIndex(1);
+        engine.cutSelectedText();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("AC",engine.getBufferContents());
+
+        // Modify selection to paste the clipboard after letter "C"
+        engine.getSelection().setEndIndex(2);
+        engine.getSelection().setBeginIndex(2);
+        engine.pasteClipboard();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("ACBD",engine.getBufferContents());
+
+        // Cut SubString "BD"
+        engine.getSelection().setEndIndex(4);
+        engine.getSelection().setBeginIndex(2);
+        engine.cutSelectedText();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("AC",engine.getBufferContents());
+
+        // Modify selection to paste the clipboard before letter "A"
+        engine.getSelection().setBeginIndex(0);
+        engine.getSelection().setEndIndex(0);
+        engine.pasteClipboard();
+        assertEquals("BD",engine.getClipboardContents());
+        assertEquals("BDAC",engine.getBufferContents());
+    }
+
+    @Test
+    @DisplayName("Verify if insert works correctly")
+    void verifyInsert(){
+        assertEquals("",engine.getBufferContents());
+
+        engine.insert("ABCD");
+        assertEquals("ABCD",engine.getBufferContents());
+
+        engine.insert(" EFGH");
+        assertEquals("ABCDEFGH",engine.getBufferContents());
+
+        engine.insert(" I J K L");
+        assertEquals("ABCD EFGH I J K L",engine.getBufferContents());
+
+
+    }
+
 }

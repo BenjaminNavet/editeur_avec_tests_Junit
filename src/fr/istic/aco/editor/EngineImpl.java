@@ -82,7 +82,10 @@ public class EngineImpl implements Engine {
      */
     @Override
     public void insert(String s) {
-        buffer.insert(getSelection().getBeginIndex(),s);
+        buffer.insert(getSelection().getBeginIndex(),s,getSelection().getEndIndex(),s.length());
+        // Update Selection with the last index of the buffer
+        getSelection().setEndIndex(getSelection().getBufferEndIndex());
+        getSelection().setBeginIndex(getSelection().getBufferEndIndex());
     }
 
     /**
