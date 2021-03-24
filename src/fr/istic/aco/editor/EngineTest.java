@@ -210,7 +210,6 @@ class EngineTest {
 
 
 
-
     @Test
     @DisplayName("inserted content must be found in the buffer")
     void insertion() {
@@ -219,13 +218,7 @@ class EngineTest {
         assertEquals("abcd", engine.getBufferContents());
     }
 
-    /* pourquoi ça marche pas???
-    @Test
-    @DisplayName("Exception for inserting a non-String parameter")
-    void InsertWrongType() {
-        assertThrows(Exception.class,()->engine.insert(45555));
-    }
-    */
+
 
     @Test
     @DisplayName("Delete all content in buffer")
