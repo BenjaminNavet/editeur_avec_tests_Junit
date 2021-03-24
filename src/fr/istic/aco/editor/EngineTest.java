@@ -334,6 +334,11 @@ class EngineTest {
         engine.getSelection().setEndIndex(4);
         engine.insert(" coucou");
         assertEquals("ABCD coucou EFGH",engine.getBufferContents());
+
+        engine.getSelection().setBeginIndex(0);
+        engine.getSelection().setEndIndex(4);
+        engine.insert("EFGH");
+        assertEquals("EFGH coucou EFGH",engine.getBufferContents());
     }
 
 
