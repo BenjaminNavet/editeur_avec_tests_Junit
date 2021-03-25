@@ -383,12 +383,12 @@ class EngineTest {
 
     @Test
     @DisplayName("Exception for setBeginIndex('4')")
-    void setBeginIndexWrongType() { assertThrows(Exception.class,()->engine.getSelection().setBeginIndex('4')); }
+    void setBeginIndexWrongType() { assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setBeginIndex('4')); }
 
     @Test
     @DisplayName("Exception for setEndIndex('4')")
     void setEndIndexWrongType() {
-        assertThrows(Exception.class,()->engine.getSelection().setEndIndex('4'));
+        assertThrows(IndexOutOfBoundsException.class,()->engine.getSelection().setEndIndex('4'));
     }
 
 
